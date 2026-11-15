@@ -12,10 +12,10 @@ Supabase (Postgres, Auth, Row Level Security) · Vercel.
 | Phase | Scope | State |
 | --- | --- | --- |
 | 1 | Design system port, database, registration, sign-in, approval, admin member management | Done |
-| 2 | Weekly calendar, workouts, classes, recurring sessions, RSVPs, admin programming | Next |
-| 3 | Result logging (all workout types), PRs, member history | Planned |
-| 4 | Leaderboards, analytics dashboard (Recharts) | Planned |
-| 5 | Hardening, polish, deployment | Planned |
+| 2 | Weekly calendar, workouts, classes, recurring sessions, open gym, duplicate week, RSVPs, attendance | Done |
+| 3 | Result logging (all workout types), strength sets, PRs, member history | Done |
+| 4 | Leaderboards, analytics dashboard (Recharts) | Done |
+| 5 | Deploy, live end-to-end test, polish | In progress |
 
 ## How member access works
 
@@ -49,7 +49,25 @@ Supabase (Postgres, Auth, Row Level Security) · Vercel.
   members privately.
 - Search engines are told not to index the app.
 
-## Setup
+## Launch checklist (no command line needed)
+
+1. **Supabase:** create a project, then open **SQL Editor → New query**, paste all of
+   `supabase/setup.sql`, and click **Run**. In **Authentication → Sign In / Providers**,
+   turn off **Allow new users to sign up**.
+2. **Vercel:** import the GitHub repository and add these environment variables,
+   copying the values from Supabase **Project Settings → API Keys / Data API**:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` (the secret one)
+   - `ADMIN_SETUP_CODE` (a long phrase only you know)
+   - `RATE_LIMIT_SALT` (any long random text)
+   - `NEXT_PUBLIC_GYM_TIMEZONE` (for example `America/New_York`)
+
+   Then click **Deploy**.
+3. **Create your admin account:** open `https://<your-site>/setup`, enter the setup
+   code, and save the sign-in code it shows you. The page stops working once an admin exists.
+
+## Setup (developers)
 
 1. **Create a Supabase project** at supabase.com.
 2. **Auth settings** (Authentication → Sign In / Providers):
@@ -57,8 +75,9 @@ Supabase (Postgres, Auth, Row Level Security) · Vercel.
      server only, so the public key can't be used to create users.
    - Leave the Email provider enabled. Confirmation emails aren't used: the
      server creates accounts as already confirmed.
-3. **Apply the migrations** in `supabase/migrations`, in filename order.
-   Either paste each file into the SQL editor, or use the Supabase CLI:
+3. **Apply the migrations** in `supabase/migrations`, in filename order. Either paste
+   `supabase/setup.sql` (all migrations combined; regenerate it with
+   `scripts/build-setup-sql.sh`) into the SQL editor, or use the Supabase CLI:
 
    ```bash
    npx supabase link --project-ref YOUR-PROJECT-REF

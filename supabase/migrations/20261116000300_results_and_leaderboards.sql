@@ -257,3 +257,6 @@ revoke all on function public.benchmark_names() from public, anon;
 grant execute on function public.section_leaderboard(uuid) to authenticated;
 grant execute on function public.benchmark_leaderboard(text) to authenticated;
 grant execute on function public.benchmark_names() to authenticated;
+
+-- Signed-out visitors never need the analytics views.
+revoke all on public.lift_bests, public.e1rm_daily, public.benchmark_bests from anon;
