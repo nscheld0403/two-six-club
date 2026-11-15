@@ -40,7 +40,7 @@ async function register(name, age, sex) {
   const code = await page.getByLabel("Sign-in code").textContent({ timeout: 30000 });
   await page.getByRole("link", { name: /saved my code/i }).click();
   await page.waitForURL("**/pending", { timeout: 20000 });
-  const pendingShown = await page.getByText("Pending approval").isVisible();
+  const pendingShown = await page.getByText("Pending approval").first().waitFor({ timeout: 20000 }).then(() => true, () => false);
   return { page, code: code.trim(), pendingShown };
 }
 
@@ -56,6 +56,7 @@ try {
     await a.page.goto(`${BASE}/admin`);
     await a.page.waitForURL(/\/(pending|welcome)$/, { timeout: 20000 });
     check(true, "pending member cannot open the admin area");
+    await a.page.getByText("Pending approval").first().waitFor({ timeout: 20000 });
     await a.page.screenshot({ path: ".smoke/live-pending.png" });
 
     const b = await register("E2E Test Bravo", 41, "Female");
