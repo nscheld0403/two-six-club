@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { PageSkeleton, SkeletonBlock } from "@/components/skeleton";
-import { TabBar } from "@/components/tab-bar";
+import { TabBar, TabBarView } from "@/components/tab-bar";
 import { ShieldIcon } from "@/components/icons";
 import { Avatar, Wordmark } from "@/components/ui/primitives";
 import { requireActiveMember } from "@/lib/auth";
@@ -47,7 +47,9 @@ export default function MemberLayout({ children }: { children: React.ReactNode }
           <MemberGate>{children}</MemberGate>
         </Suspense>
       </main>
-      <TabBar />
+      <Suspense fallback={<TabBarView />}>
+        <TabBar />
+      </Suspense>
     </div>
   );
 }

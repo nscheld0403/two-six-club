@@ -5,7 +5,7 @@ import { PageSkeleton, SkeletonBlock } from "@/components/skeleton";
 import { Avatar, Wordmark } from "@/components/ui/primitives";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { AdminNav } from "./admin-nav";
+import { AdminNav, AdminNavView } from "./admin-nav";
 
 export const metadata = { title: { default: "Coach admin", template: "%s · Coach admin" } };
 
@@ -45,7 +45,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-2">
           <Wordmark sub="COACH ADMIN" />
         </div>
-        <Suspense fallback={<AdminNav pendingCount={0} />}>
+        <Suspense fallback={<AdminNavView pendingCount={0} />}>
           <AdminSidebarNav />
         </Suspense>
         <div className="hidden flex-1 md:block" />

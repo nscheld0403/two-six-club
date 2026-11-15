@@ -6,11 +6,16 @@ import { cn } from "@/lib/cn";
 
 const items = [
   { href: "/admin", label: "Overview", exact: true },
+  { href: "/admin/programming", label: "Programming" },
+  { href: "/admin/schedule", label: "Classes & attendance" },
   { href: "/admin/members", label: "Members" },
 ];
 
 export function AdminNav({ pendingCount }: { pendingCount: number }) {
-  const pathname = usePathname();
+  return <AdminNavView pendingCount={pendingCount} pathname={usePathname()} />;
+}
+
+export function AdminNavView({ pendingCount, pathname = "" }: { pendingCount: number; pathname?: string }) {
   return (
     <nav aria-label="Admin sections" className="flex flex-wrap gap-1">
       {items.map((item) => {
@@ -35,10 +40,6 @@ export function AdminNav({ pendingCount }: { pendingCount: number }) {
           </Link>
         );
       })}
-      <span className="flex h-11 flex-[1_1_180px] items-center gap-3 px-3 text-sm font-semibold text-ash/70" title="Arrives in Phase 2">
-        <span className="size-2 rounded-full bg-line" />
-        Programming &amp; classes
-      </span>
     </nav>
   );
 }

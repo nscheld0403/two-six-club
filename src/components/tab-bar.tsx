@@ -13,8 +13,12 @@ const tabs = [
   { href: "/progress", label: "Progress", Icon: TrendIcon },
 ] as const;
 
+/** Tab bar that highlights the current route. Wrap in <Suspense fallback={<TabBarView />}>. */
 export function TabBar() {
-  const pathname = usePathname();
+  return <TabBarView pathname={usePathname()} />;
+}
+
+export function TabBarView({ pathname = "" }: { pathname?: string }) {
   return (
     <nav
       aria-label="Primary"
