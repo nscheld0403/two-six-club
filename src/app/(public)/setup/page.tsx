@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Display, Wordmark } from "@/components/ui/primitives";
 import { PageSkeleton } from "@/components/skeleton";
 import { adminExists } from "./actions";
-import { SetupForm } from "./setup-form";
+import { RecoverForm, SetupForm } from "./setup-form";
 
 export const metadata = { title: "Setup" };
 
@@ -22,10 +22,11 @@ async function SetupGate() {
     return (
       <div className="flex flex-col gap-4">
         <Display>Setup complete</Display>
-        <p className="m-0 text-base text-mist">The administrator account already exists.</p>
+        <p className="m-0 text-base text-mist">The coach account already exists.</p>
         <ButtonLink href="/sign-in" size="lg">
           Sign in
         </ButtonLink>
+        <RecoverForm />
       </div>
     );
   }

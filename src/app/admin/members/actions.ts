@@ -40,6 +40,7 @@ export async function reactivateMember(memberId: string) {
 export async function resetAccess(memberId: string): Promise<ActionResult> {
   const me = await requireAdmin();
   const target = id.parse(memberId);
+  if (target === me.id) return { ok: false, message: "Use the setup page to replace your own coach code." };
   try {
     const signInCode = await resetMemberAccess(target, me.id);
     revalidatePath("/admin", "layout");

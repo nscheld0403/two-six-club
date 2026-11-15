@@ -4,7 +4,9 @@ import { timingSafeEqual } from "node:crypto";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { allowRegistrationAttempt, createMember } from "@/lib/members";
+import { allowRegistrationAttempt, createMember, resetMemberAccess } from "@/lib/members";
+import { memberAuthEmail, parseSignInCode } from "@/lib/credentials";
+import { publicEnv } from "@/lib/env";
 import { registrationSchema } from "@/lib/validation";
 
 export type SetupState =
@@ -52,5 +54,40 @@ export async function createFirstAdmin(_prev: SetupState, formData: FormData): P
   } catch (err) {
     console.error("createFirstAdmin failed", err);
     return { status: "error", message: "Couldn't create the admin account. Check the database setup and keys." };
+  }
+}
+
+/**
+ * Lost coach code: whoever holds ADMIN_SETUP_CODE (set privately in the
+ * hosting settings) can issue the administrator a fresh sign-in code. The old
+ * code stops working and every device is signed out.
+ */
+export async function recoverAdmin(_prev: SetupState, formData: FormData): Promise<SetupState> {
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (!(await allowRegistrationAttempt(ip))) return { status: "error", message: "Too many attempts. Try again in an hour." };
+  if (!codeMatches(String(formData.get("setupCode") ?? ""))) return { status: "error", message: "That setup code doesn't match." };
+
+  const admin = createAdminClient();
+  const { data: coach, error } = await admin
+    .from("profiles")
+    .select("id, display_name")
+    .eq("role", "admin")
+    .order("created_at")
+    .limit(1)
+    .maybeSingle();
+  if (error || !coach) return { status: "error", message: "No coach account exists yet. Create one above." };
+
+  try {
+    const signInCode = await resetMemberAccess(coach.id, coach.id);
+    const parsed = parseSignInCode(signInCode)!;
+    const supabase = await createClient();
+    await supabase.auth.signInWithPassword({
+      email: memberAuthEmail(parsed.memberCode, publicEnv.memberEmailDomain()),
+      password: parsed.accessKey,
+    });
+    return { status: "success", signInCode, displayName: coach.display_name };
+  } catch (err) {
+    console.error("recoverAdmin failed", err);
+    return { status: "error", message: "Couldn't issue a new code. Try again." };
   }
 }

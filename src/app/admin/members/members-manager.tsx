@@ -283,6 +283,12 @@ export function MembersManager({ members, selfId }: { members: Member[]; selfId:
                   </Button>
                 </form>
 
+                {selected.id === selfId ? (
+                  <p className="m-0 border-t border-line pt-5 text-[13px] leading-relaxed text-mist">
+                    To replace your own coach code, use <strong className="text-fog">Lost your coach code?</strong> on the{" "}
+                    <a href="/setup" className="text-accent underline">setup page</a> with your setup code.
+                  </p>
+                ) : (
                 <div className="flex flex-col gap-2 border-t border-line pt-5">
                   <div className="text-[13px] font-semibold text-fog">Access</div>
                   <p className="m-0 text-[13px] leading-relaxed text-mist">
@@ -304,6 +310,7 @@ export function MembersManager({ members, selfId }: { members: Member[]; selfId:
                     Reset sign-in code
                   </Button>
                 </div>
+                )}
 
                 {selected.id !== selfId ? (
                   <div className="flex flex-wrap gap-2 border-t border-line pt-5">
