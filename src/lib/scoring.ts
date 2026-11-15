@@ -35,6 +35,24 @@ export function disciplineMeta(d: Discipline) {
   return DISCIPLINES.find((x) => x.value === d) ?? DISCIPLINES[0];
 }
 
+const SHORT: Record<ScoringType, string> = {
+  none: "—",
+  for_time: "For time",
+  amrap: "AMRAP",
+  emom: "EMOM",
+  max_weight: "Max load",
+  max_reps: "Max reps",
+  distance: "Distance",
+  time_trial: "Time trial",
+  calories: "Calories",
+  sets_reps: "Sets",
+};
+
+/** Compact label for tight spaces (tiles, chips). */
+export function scoringShort(s: ScoringType) {
+  return SHORT[s] ?? s;
+}
+
 export function scoringLabel(s: ScoringType) {
   return SCORING_OPTIONS.find((o) => o.value === s)?.label ?? s;
 }

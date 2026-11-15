@@ -15,7 +15,7 @@ Supabase (Postgres, Auth, Row Level Security) · Vercel.
 | 2 | Weekly calendar, workouts, classes, recurring sessions, open gym, duplicate week, RSVPs, attendance | Done |
 | 3 | Result logging (all workout types), strength sets, PRs, member history | Done |
 | 4 | Leaderboards, analytics dashboard (Recharts) | Done |
-| 5 | Deploy, live end-to-end test, polish | In progress |
+| 5 | Deploy, live end-to-end test, polish | Done (live at two-six-club.vercel.app) |
 
 ## How member access works
 

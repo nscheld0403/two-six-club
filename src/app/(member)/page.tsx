@@ -4,7 +4,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Card, Display, EmptyState, Eyebrow, ProgressBar } from "@/components/ui/primitives";
 import { requireActiveMember } from "@/lib/auth";
 import { getClubSettings } from "@/lib/club";
-import { disciplineMeta, scoringLabel } from "@/lib/scoring";
+import { disciplineMeta, scoringShort } from "@/lib/scoring";
 import { createClient } from "@/lib/supabase/server";
 import { addDays, dateKeyIn, formatDateKey, formatTime, todayKey, zonedParts, zonedToUtc } from "@/lib/time";
 import { loadWorkouts } from "@/lib/workouts";
@@ -120,7 +120,7 @@ export default async function HomePage() {
                     <div key={s.id} className="min-w-0 rounded-xl bg-graphite px-3 py-2.5">
                       <div className="truncate text-[10px] font-semibold uppercase tracking-[0.12em] text-ash">{s.kind}</div>
                       <div className="truncate font-display text-lg font-bold">
-                        {s.time_cap_seconds ? `${Math.round(s.time_cap_seconds / 60)}'` : s.scoring !== "none" ? scoringLabel(s.scoring) : s.title}
+                        {s.time_cap_seconds ? `${Math.round(s.time_cap_seconds / 60)}'` : s.scoring !== "none" ? scoringShort(s.scoring) : s.title}
                       </div>
                     </div>
                   ))}

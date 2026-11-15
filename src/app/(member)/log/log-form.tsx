@@ -117,7 +117,7 @@ export function LogForm({
       scoring: scoring as ResultInput["scoring"],
       movementId: movementId || null,
       benchmarkName: benchmark.trim() || null,
-      level: initial.hasLevels || initial.freeForm ? level : null,
+      level: initial.hasLevels ? level : null,
       rx,
       timeSeconds,
       capped: scoring === "for_time" ? capped : false,
@@ -153,7 +153,7 @@ export function LogForm({
           <div className="font-display text-[88px] font-extrabold leading-[0.9]">{saved.score}</div>
           <div className="mt-1.5 text-[15px] text-fog">
             {title}
-            {initial.hasLevels || initial.freeForm ? ` · Level ${level}` : ""} · {rx ? "Rx" : "Scaled"}
+            {initial.hasLevels ? ` · Level ${level}` : ""} · {rx ? "Rx" : "Scaled"}
             {rpe ? ` · RPE ${rpe}` : ""}
           </div>
         </div>
@@ -263,8 +263,8 @@ export function LogForm({
 
       <section className="flex flex-col gap-2.5">
         <Eyebrow>Scaling</Eyebrow>
-        <div className={cn("grid gap-2", initial.hasLevels || initial.freeForm ? "grid-cols-2" : "grid-cols-1")}>
-          {initial.hasLevels || initial.freeForm ? (
+        <div className={cn("grid gap-2", initial.hasLevels ? "grid-cols-2" : "grid-cols-1")}>
+          {initial.hasLevels ? (
             <div className="flex rounded-button border border-line bg-charcoal p-1" role="radiogroup" aria-label="Level">
               {([1, 2] as const).map((l) => (
                 <button

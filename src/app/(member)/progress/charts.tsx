@@ -104,8 +104,8 @@ export function ActivityChart({ weekly, monthly }: { weekly: Bucket[]; monthly: 
         <div className="text-[11px] font-semibold uppercase tracking-eyebrow text-ash">
           Training days · avg {avg} / {mode}
         </div>
-        <div className="w-40">
-          <Toggle label="Period" value={mode} onChange={setMode} options={[{ v: "week", l: "Weekly" }, { v: "month", l: "Monthly" }]} />
+        <div className="w-44 flex-none">
+          <Toggle label="Period" value={mode} onChange={setMode} options={[{ v: "week", l: "Week" }, { v: "month", l: "Month" }]} />
         </div>
       </div>
       <div className="h-[130px]" role="img" aria-label={`Training days per ${mode}: ${data.map((d) => `${d.label} ${d.days}`).join(", ")}`}>
