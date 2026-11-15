@@ -41,21 +41,33 @@ export default async function LeaderboardPage({ searchParams }: PageProps<"/lead
 
   const requestedSection = typeof sp.section === "string" ? sp.section : null;
   const requestedBenchmark = typeof sp.benchmark === "string" ? sp.benchmark : null;
-  const selected =
+  async function load(o: BoardOption): Promise<BoardEntry[]> {
+    if (o.kind === "section") {
+      const { data } = await supabase.rpc("section_leaderboard", { p_section: o.id });
+      return (data ?? []).map((r) => ({ ...r, scoring: o.scoring! }));
+    }
+    const { data } = await supabase.rpc("benchmark_leaderboard", { p_benchmark: o.id });
+    return (data ?? []).map((r) => ({ ...r }));
+  }
+
+  const requested =
     options.find((o) => o.kind === "section" && o.id === requestedSection) ??
     options.find((o) => o.kind === "benchmark" && o.id.toLowerCase() === requestedBenchmark?.toLowerCase()) ??
-    options[0] ??
     null;
 
-  let entries: BoardEntry[] = [];
-  let scoring = selected?.scoring ?? null;
-  if (selected?.kind === "section") {
-    const { data } = await supabase.rpc("section_leaderboard", { p_section: selected.id });
-    entries = (data ?? []).map((r) => ({ ...r, scoring: scoring! }));
-  } else if (selected?.kind === "benchmark") {
-    const { data } = await supabase.rpc("benchmark_leaderboard", { p_benchmark: selected.id });
-    entries = (data ?? []).map((r) => ({ ...r }));
-    scoring = entries[0]?.scoring ?? null;
+  let selected: BoardOption | null = requested;
+  let entries: BoardEntry[] = requested ? await load(requested) : [];
+  if (!requested) {
+    // Open on the most recent board that has scores (checks a handful at most).
+    for (const o of options.slice(0, 6)) {
+      const e = await load(o);
+      if (e.length) {
+        selected = o;
+        entries = e;
+        break;
+      }
+    }
+    if (!selected) selected = options[0] ?? null;
   }
 
   return <LeaderboardView options={options} selected={selected} entries={entries} />;

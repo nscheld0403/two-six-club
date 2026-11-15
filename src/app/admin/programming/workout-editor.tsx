@@ -150,7 +150,7 @@ export function WorkoutEditor({
               {" · "}
               {w.isTemplate ? "reusable" : w.status === "published" ? "Live" : "Draft"}
             </Eyebrow>
-            <Display className="text-[40px]">{w.id ? "Edit workout" : w.isTemplate ? "New template" : "New workout"}</Display>
+            <Display className="text-[32px]">{w.id ? "Edit workout" : w.isTemplate ? "New template" : "New workout"}</Display>
           </div>
         </div>
       </header>

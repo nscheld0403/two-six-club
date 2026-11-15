@@ -5,8 +5,8 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Too
 import { cn } from "@/lib/cn";
 
 const ACCENT = "var(--color-accent)";
-const GRID = "#222226";
-const AXIS = "#85858b";
+const GRID = "#2a2c2e";
+const AXIS = "#8e8f90";
 
 function ChartTooltip({ active, payload, label, unit }: { active?: boolean; payload?: Array<{ value: number }>; label?: string; unit: string }) {
   if (!active || !payload?.length) return null;
@@ -73,12 +73,12 @@ export function StrengthChart({ series }: { series: StrengthSeries[] }) {
       {current.points.length > 1 ? (
         <div className="h-[170px]" role="img" aria-label={`${current.name} estimated one-rep max: ${current.points.map((p) => `${p.label} ${p.e1rm} lb`).join(", ")}`}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={current.points} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
+            <LineChart data={current.points} margin={{ top: 8, right: 8, bottom: 0, left: -6 }}>
               <CartesianGrid vertical={false} stroke={GRID} />
               <XAxis dataKey="label" tick={{ fill: AXIS, fontSize: 11 }} axisLine={false} tickLine={false} minTickGap={24} />
               <YAxis tick={{ fill: AXIS, fontSize: 11 }} axisLine={false} tickLine={false} domain={["dataMin - 10", "dataMax + 10"]} allowDecimals={false} width={48} />
-              <Tooltip content={<ChartTooltip unit="lb" />} cursor={{ stroke: "#3a3a40" }} />
-              <Line type="monotone" dataKey="e1rm" stroke={ACCENT} strokeWidth={2} dot={{ r: 4, fill: "#141416", stroke: ACCENT, strokeWidth: 2 }} activeDot={{ r: 6, fill: ACCENT, stroke: "#141416", strokeWidth: 2 }} />
+              <Tooltip content={<ChartTooltip unit="lb" />} cursor={{ stroke: "#4a4c4e" }} />
+              <Line type="monotone" dataKey="e1rm" stroke={ACCENT} strokeWidth={2} dot={{ r: 4, fill: "#171819", stroke: ACCENT, strokeWidth: 2 }} activeDot={{ r: 6, fill: ACCENT, stroke: "#171819", strokeWidth: 2 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -110,7 +110,7 @@ export function ActivityChart({ weekly, monthly }: { weekly: Bucket[]; monthly: 
       </div>
       <div className="h-[130px]" role="img" aria-label={`Training days per ${mode}: ${data.map((d) => `${d.label} ${d.days}`).join(", ")}`}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 4, right: 0, bottom: 0, left: -28 }} barCategoryGap={4}>
+          <BarChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -14 }} barCategoryGap={4}>
             <CartesianGrid vertical={false} stroke={GRID} />
             <XAxis dataKey="label" tick={{ fill: AXIS, fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={16} />
             <YAxis tick={{ fill: AXIS, fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} width={40} />
@@ -133,7 +133,7 @@ export function VolumeChart({ data }: { data: Array<{ key: string; label: string
       </div>
       <div className="h-[120px]" role="img" aria-label={`Weekly strength volume: ${data.map((d) => `${d.label} ${d.volume} lb`).join(", ")}`}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 4, right: 0, bottom: 0, left: -10 }} barCategoryGap={4}>
+          <BarChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }} barCategoryGap={4}>
             <CartesianGrid vertical={false} stroke={GRID} />
             <XAxis dataKey="label" tick={{ fill: AXIS, fontSize: 10 }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={16} />
             <YAxis tick={{ fill: AXIS, fontSize: 11 }} axisLine={false} tickLine={false} width={52} tickFormatter={(v: number) => (v >= 1000 ? `${Math.round(v / 1000)}k` : String(v))} />

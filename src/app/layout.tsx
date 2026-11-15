@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, Inter } from "next/font/google";
+import { Barlow_Condensed, Cinzel, Inter } from "next/font/google";
 import { brand } from "@/config/brand";
 import "./globals.css";
 
@@ -10,15 +10,26 @@ const barlow = Barlow_Condensed({
   variable: "--font-barlow",
   display: "swap",
 });
+/** Brand serif: headings and wordmark (matches the club plaque). */
+const cinzel = Cinzel({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-cinzel", display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: brand.name, template: `%s · ${brand.name}` },
+  applicationName: brand.name,
   description: "Members-only training app.",
   robots: { index: false, follow: false },
+  // iPhone "Add to Home Screen": full-screen app, short label under the icon.
+  appleWebApp: {
+    capable: true,
+    title: brand.shortName,
+    statusBarStyle: "black",
+  },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0c",
+  themeColor: brand.backgroundColor,
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -26,7 +37,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${barlow.variable}`}>
+    <html lang="en" className={`${inter.variable} ${barlow.variable} ${cinzel.variable}`}>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

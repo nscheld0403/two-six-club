@@ -159,7 +159,7 @@ export function ScheduleManager({
           <Eyebrow className="text-xs">
             {formatDateKey(monday, { month: "long", day: "numeric" })} – {formatDateKey(addDays(monday, 6), { month: "long", day: "numeric" })}
           </Eyebrow>
-          <Display className="mt-1 text-[48px]">Class schedule</Display>
+          <Display className="mt-1 text-[38px]">Class schedule</Display>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link href={`/admin/schedule?week=${addDays(monday, -7)}`} aria-label="Previous week" className="press flex size-11 items-center justify-center rounded-full border border-hairline">

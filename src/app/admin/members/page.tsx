@@ -17,7 +17,7 @@ export default async function MembersPage() {
     <>
       <header>
         <Eyebrow className="text-xs">Approvals, access and details</Eyebrow>
-        <Display className="mt-1 text-[48px]">Members</Display>
+        <Display className="mt-1 text-[38px]">Members</Display>
       </header>
       <MembersManager members={data ?? []} selfId={me.id} />
     </>

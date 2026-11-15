@@ -50,7 +50,7 @@ export function Roster({
         </Link>
         <div>
           <Eyebrow className="text-xs">{session.when}</Eyebrow>
-          <Display className="text-[40px]">{session.title}</Display>
+          <Display className="text-[32px]">{session.title}</Display>
         </div>
         {session.cancelled ? <Badge tone="warn">Cancelled</Badge> : null}
       </header>

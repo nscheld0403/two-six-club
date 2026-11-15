@@ -31,14 +31,18 @@ export function Display({
   ...rest
 }: ComponentProps<"h1"> & { as?: "h1" | "h2" | "h3"; size?: "hero" | "display" | "h1" | "h2" }) {
   const sizes = {
-    hero: "text-[76px] leading-[0.86]",
-    display: "text-[56px] leading-[0.9]",
-    h1: "text-[40px] leading-[0.95]",
-    h2: "text-[22px] leading-none tracking-[0.02em] font-bold",
+    hero: "text-[52px]",
+    display: "text-[42px]",
+    h1: "text-[32px]",
+    h2: "text-[19px] tracking-[0.04em]",
   } as const;
+  // Applied after any caller size: tailwind-merge drops a line-height that
+  // precedes a font-size class, which would leave serif headings double-spaced.
+  const leading = { hero: "leading-[0.98]", display: "leading-[1.02]", h1: "leading-[1.08]", h2: "leading-tight" } as const;
+  const callerSetsLeading = /(^|\s)leading-/.test(className ?? "");
   return (
     <Tag
-      className={cn("font-display font-extrabold uppercase m-0", sizes[size], className)}
+      className={cn("m-0 font-brand font-bold uppercase tracking-[0.01em]", sizes[size], className, !callerSetsLeading && leading[size])}
       {...rest}
     />
   );
@@ -68,33 +72,46 @@ export function Badge({ tone = "neutral", className, ...rest }: ComponentProps<"
   );
 }
 
+/** Framed "26" — the approved app-icon mark, in miniature. */
 export function LogoMark({ size = 34, className }: { size?: number; className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={cn(
-        "flex items-center justify-center bg-accent font-display font-extrabold text-accent-ink",
-        className,
-      )}
-      style={{ width: size, height: size, borderRadius: size * 0.27, fontSize: size * 0.56 }}
+      className={cn("flex flex-none items-center justify-center bg-matte font-brand font-bold text-chalk", className)}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size * 0.22,
+        fontSize: size * 0.46,
+        letterSpacing: "-0.02em",
+        boxShadow: `inset 0 0 0 ${Math.max(1, size * 0.03)}px var(--color-chalk), inset 0 0 0 ${Math.max(2, size * 0.075)}px var(--color-matte), inset 0 0 0 ${Math.max(2.5, size * 0.09)}px var(--color-chalk)`,
+      }}
     >
       {brand.mark}
     </div>
   );
 }
 
+/** Compact header lockup: framed 26 + THE TWO SIX CLUB. */
 export function Wordmark({ size = 34, sub }: { size?: number; sub?: string }) {
   return (
     <div className="flex items-center gap-2.5">
       <LogoMark size={size} />
-      <div>
-        <div className="font-display text-[21px] font-extrabold leading-none tracking-[0.08em]">
-          {brand.wordmark}
-        </div>
-        {sub ? <div className="mt-0.5 text-[11px] font-semibold tracking-[0.12em] text-ash">{sub}</div> : null}
+      <div className="leading-none">
+        <div className="font-brand text-[9px] font-semibold tracking-[0.34em] text-mist">THE</div>
+        <div className="whitespace-nowrap font-brand text-[17px] font-bold tracking-[0.06em]">TWO SIX CLUB</div>
+        {sub ? <div className="mt-1 text-[10px] font-semibold tracking-[0.14em] text-ash">{sub}</div> : null}
       </div>
       <span className="sr-only">{brand.name}</span>
     </div>
+  );
+}
+
+/** Full plaque-style lockup (vector), for the welcome and setup screens. */
+export function BrandLockup({ className }: { className?: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- static SVG, no optimisation needed
+    <img src="/brand/wordmark.svg" alt={`${brand.name}, established ${brand.established}`} width={1200} height={800} className={cn("h-auto w-full", className)} />
   );
 }
 

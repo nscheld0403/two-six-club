@@ -71,12 +71,12 @@ export default async function HomePage() {
       <section className="flex flex-col gap-1 pt-1">
         <Eyebrow className="text-xs">{formatDateKey(today, { weekday: "long", month: "long", day: "numeric" })}</Eyebrow>
         {isBirthdayOn(me.birth_date, today) ? (
-          <Display className="flex items-center gap-3 text-[44px]">
+          <Display className="flex items-center gap-3 text-[32px]">
             Happy birthday, {me.display_name.split(" ")[0]}.
             <CakeIcon size={36} className="flex-none text-strength" />
           </Display>
         ) : (
-          <Display className="text-[44px]">
+          <Display className="text-[32px]">
             {greeting}, {me.display_name.split(" ")[0]}.
           </Display>
         )}
@@ -112,7 +112,7 @@ export default async function HomePage() {
               <div key={d} className="flex flex-col items-center gap-1.5">
                 <div
                   className={on ? "size-[22px] rounded-full border-[1.5px] border-accent bg-accent" : "size-[22px] rounded-full border-[1.5px]"}
-                  style={on ? undefined : { borderColor: isToday ? "var(--color-chalk)" : "#2e2e33" }}
+                  style={on ? undefined : { borderColor: isToday ? "var(--color-chalk)" : "#343638" }}
                   aria-label={`${formatDateKey(d, { weekday: "long" })}: ${on ? "trained" : "rest"}`}
                 />
                 <div className={isToday ? "text-[10px] font-semibold text-chalk" : "text-[10px] font-semibold text-ash"}>
@@ -134,7 +134,7 @@ export default async function HomePage() {
                 </span>
                 <span className="text-xs text-mist">{meta.label}</span>
               </div>
-              <h2 className="m-0 font-display text-[52px] font-extrabold uppercase leading-[0.9]">{todayWorkout.title}</h2>
+              <h2 className="m-0 font-brand text-[38px] font-bold uppercase leading-none">{todayWorkout.title}</h2>
               {todayWorkout.summary ? <div className="text-sm text-fog">{todayWorkout.summary}</div> : null}
               {todayWorkout.sections.length ? (
                 <div className="mt-1 grid grid-cols-3 gap-2">

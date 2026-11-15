@@ -31,7 +31,7 @@ export default async function ProgrammingPage({ searchParams }: PageProps<"/admi
           <Eyebrow className="text-xs">
             Week of {formatDateKey(monday, { month: "long", day: "numeric" })}
           </Eyebrow>
-          <Display className="mt-1 text-[48px]">Programming</Display>
+          <Display className="mt-1 text-[38px]">Programming</Display>
         </div>
         <div className="flex gap-2">
           <Link href={`/admin/programming?week=${addDays(monday, -7)}`} aria-label="Previous week" className="press flex size-11 items-center justify-center rounded-full border border-hairline">

@@ -66,7 +66,7 @@ export function WorkoutDetail({ workout, loggedSectionIds }: { workout: WorkoutW
             {meta.label.toUpperCase()}
           </span>
         </div>
-        <Display size="display" className="text-[60px] leading-[0.88]">
+        <Display size="display" className="text-[40px] leading-[1.02]">
           {workout.title}
         </Display>
         {workout.summary ? <p className="m-0 text-[15px] leading-normal text-fog">{workout.summary}</p> : null}

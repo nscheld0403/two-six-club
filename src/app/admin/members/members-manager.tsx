@@ -207,7 +207,7 @@ export function MembersManager({ members, selfId }: { members: Member[]; selfId:
               </thead>
               <tbody>
                 {shown.map((m) => (
-                  <tr key={m.id} className="hover:bg-[#18181b]">
+                  <tr key={m.id} className="hover:bg-graphite/60">
                     <td className="border-b border-graphite px-2 py-2.5">
                       <div className="flex items-center gap-2.5">
                         <Avatar name={m.display_name} size={32} />

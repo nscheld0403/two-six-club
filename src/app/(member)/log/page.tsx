@@ -57,7 +57,7 @@ export default async function LogPage() {
         scoredWorkouts.map((w) => (
           <Card key={w.id} className="flex flex-col gap-1 py-3">
             <div className="flex items-baseline justify-between gap-3 pb-1">
-              <Link href={`/workouts/${w.id}`} className="min-w-0 truncate font-display text-[22px] font-bold uppercase">
+              <Link href={`/workouts/${w.id}`} className="min-w-0 truncate font-brand text-[19px] font-bold uppercase">
                 {w.title}
               </Link>
               <span className="flex-none text-xs text-mist">

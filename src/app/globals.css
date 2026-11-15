@@ -1,33 +1,35 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — ported 1:1 from the approved design system board.
- * Matte / Charcoal / Graphite surfaces, hairline borders, Chalk text,
- * Volt accent. Barlow Condensed for display + numbers, Inter for UI.
+ * Design tokens — The Two Six Club black & white identity (brand kit, Nov 2026).
+ * Matte black surfaces, warm ivory text and accent, silver detail.
+ * Cinzel serif for brand headings, Barlow Condensed for numbers, Inter for UI.
+ * Semantic colours (warning/danger/category dots) are reserved for meaning.
  */
 @theme {
-  --color-matte: #0b0b0c;
-  --color-charcoal: #141416;
-  --color-graphite: #1c1c1f;
-  --color-line: #222226;
-  --color-hairline: #2a2a2e;
-  --color-edge: #3a3a40;
-  --color-track: #26262a;
-  --color-ash: #85858b;
-  --color-mist: #a1a1a6;
-  --color-fog: #c9c9cc;
-  --color-chalk: #f4f4f2;
-  --color-placeholder: #6e6e74;
+  --color-matte: #0d0d0e;
+  --color-charcoal: #171819;
+  --color-graphite: #222426;
+  --color-line: #2a2c2e;
+  --color-hairline: #343638;
+  --color-edge: #4a4c4e;
+  --color-track: #2a2c2e;
+  --color-ash: #8e8f90;
+  --color-mist: #b4b5b5;
+  --color-fog: #cfd1d2;
+  --color-chalk: #f5f4f0;
+  --color-placeholder: #75777a;
 
-  --color-accent: #c6f432;
-  --color-accent-ink: #0b0b0c;
+  --color-accent: #f5f4f0;
+  --color-accent-ink: #0d0d0e;
   --color-hyrox: #6fa8ff;
-  --color-strength: #f2b04a;
-  --color-conditioning: #ff8a65;
+  --color-strength: #e6b866;
+  --color-conditioning: #e07777;
   --color-recovery: #b9a6ff;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-barlow), "Barlow Condensed", ui-sans-serif, sans-serif;
+  --font-brand: var(--font-cinzel), "Cinzel", ui-serif, Georgia, serif;
 
   --radius-chip: 10px;
   --radius-button: 14px;

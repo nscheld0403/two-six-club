@@ -45,7 +45,7 @@ export default async function AdminOverview() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <Eyebrow className="text-xs">{today}</Eyebrow>
-          <Display className="mt-1 text-[48px]">Club overview</Display>
+          <Display className="mt-1 text-[38px]">Club overview</Display>
         </div>
         <ButtonLink href="/admin/members" variant="primary" size="sm">
           Review members
