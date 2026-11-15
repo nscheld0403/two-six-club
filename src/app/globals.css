@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Design tokens — ported 1:1 from the approved design system board.
+ * Matte / Charcoal / Graphite surfaces, hairline borders, Chalk text,
+ * Volt accent. Barlow Condensed for display + numbers, Inter for UI.
+ */
+@theme {
+  --color-matte: #0b0b0c;
+  --color-charcoal: #141416;
+  --color-graphite: #1c1c1f;
+  --color-line: #222226;
+  --color-hairline: #2a2a2e;
+  --color-edge: #3a3a40;
+  --color-track: #26262a;
+  --color-ash: #85858b;
+  --color-mist: #a1a1a6;
+  --color-fog: #c9c9cc;
+  --color-chalk: #f4f4f2;
+  --color-placeholder: #6e6e74;
+
+  --color-accent: #c6f432;
+  --color-accent-ink: #0b0b0c;
+  --color-hyrox: #6fa8ff;
+  --color-strength: #f2b04a;
+  --color-conditioning: #ff8a65;
+  --color-recovery: #b9a6ff;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow), "Barlow Condensed", ui-sans-serif, sans-serif;
+
+  --radius-chip: 10px;
+  --radius-button: 14px;
+  --radius-card: 18px;
+  --radius-hero: 22px;
+
+  --tracking-eyebrow: 0.14em;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-matte);
+  }
+  body {
+    background: var(--color-matte);
+    color: var(--color-chalk);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::placeholder {
+    color: var(--color-placeholder);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-chalk);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility press {
+  transition:
+    transform 120ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
