@@ -72,17 +72,15 @@ export function JoinForm() {
           />
         </Field>
 
-        <Field label="Age" htmlFor="age" error={errors.age}>
+        <Field label="Birthday" hint="only the coach sees the date" htmlFor="birthDate" error={errors.birthDate}>
           <TextInput
-            id="age"
-            name="age"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            maxLength={3}
+            id="birthDate"
+            name="birthDate"
+            type="date"
             required
-            defaultValue={values.age}
-            aria-invalid={Boolean(errors.age)}
-            className="w-[140px]"
+            defaultValue={values.birthDate}
+            aria-invalid={Boolean(errors.birthDate)}
+            className="w-[200px] [color-scheme:dark]"
           />
         </Field>
 

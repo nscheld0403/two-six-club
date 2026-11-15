@@ -28,6 +28,7 @@ export type ProfileRow = {
   display_name: string;
   age: number;
   age_recorded_on: string;
+  birth_date: string | null;
   sex: MemberSex;
   role: MemberRole;
   status: MemberStatus;
@@ -207,6 +208,7 @@ export type MemberScheduleRow = {
   going_count: number;
   maybe_count: number;
   my_status: RsvpStatus | null;
+  birthday_count: number;
 };
 
 export type LeaderboardRow = {
@@ -275,7 +277,7 @@ export type Database = {
       member_schedule: { Args: { p_from: string; p_to: string }; Returns: MemberScheduleRow[] };
       session_attendees: {
         Args: { p_session: string };
-        Returns: { member_id: string; display_name: string; status: RsvpStatus }[];
+        Returns: { member_id: string; display_name: string; status: RsvpStatus; is_birthday: boolean }[];
       };
       section_leaderboard: { Args: { p_section: string }; Returns: LeaderboardRow[] };
       benchmark_leaderboard: {

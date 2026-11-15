@@ -41,8 +41,8 @@ export function SetupForm() {
       <Field label="Your name" htmlFor="displayName">
         <TextInput id="displayName" name="displayName" autoComplete="name" maxLength={60} required />
       </Field>
-      <Field label="Age" htmlFor="age">
-        <TextInput id="age" name="age" inputMode="numeric" maxLength={3} className="w-[140px]" required />
+      <Field label="Birthday" htmlFor="birthDate">
+        <TextInput id="birthDate" name="birthDate" type="date" className="w-[200px] [color-scheme:dark]" required />
       </Field>
       <Segmented name="sex" legend="Sex" hint="optional" options={SEX_OPTIONS} defaultValue="undisclosed" />
       {state.status === "error" ? (

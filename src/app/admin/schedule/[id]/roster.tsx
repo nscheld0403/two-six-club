@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { ChevronLeftIcon } from "@/components/icons";
+import { BirthdayCake, ChevronLeftIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { inputClasses } from "@/components/ui/form";
 import { Avatar, Badge, Card, Display, EmptyState, Eyebrow } from "@/components/ui/primitives";
@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
 import type { RsvpStatus } from "@/lib/supabase/database.types";
 import { removeReservation, setAttendance } from "../actions";
 
-type Res = { memberId: string; name: string; status: RsvpStatus; attended: boolean | null };
+type Res = { memberId: string; name: string; status: RsvpStatus; attended: boolean | null; birthday: boolean };
 
 export function Roster({
   session,
@@ -82,7 +82,10 @@ export function Roster({
               <li key={r.memberId} className="flex flex-wrap items-center gap-3 py-2.5">
                 <Avatar name={r.name} size={36} />
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold">{r.name}</span>
+                  <span className="flex items-center gap-1.5 truncate text-sm font-semibold">
+                    {r.name}
+                    {r.birthday ? <BirthdayCake name={r.name} /> : null}
+                  </span>
                   <span className={cn("text-xs", r.status === "going" ? "text-accent" : "text-mist")}>
                     {r.status === "going" ? "Going" : r.status === "maybe" ? "Maybe" : "Can't go"}
                   </span>

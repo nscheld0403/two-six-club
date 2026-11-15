@@ -11,7 +11,7 @@ export async function updateAccount(_prev: AccountState, formData: FormData): Pr
   const me = await requireActiveMember();
   const parsed = profileUpdateSchema.safeParse({
     displayName: formData.get("displayName"),
-    age: formData.get("age"),
+    birthDate: formData.get("birthDate"),
     sex: formData.get("sex"),
   });
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Check your details" };
@@ -21,7 +21,7 @@ export async function updateAccount(_prev: AccountState, formData: FormData): Pr
     .from("profiles")
     .update({
       display_name: parsed.data.displayName,
-      age: parsed.data.age,
+      birth_date: parsed.data.birthDate,
       sex: parsed.data.sex,
       results_visible: formData.get("resultsVisible") === "on",
       show_demographics: formData.get("showDemographics") === "on",

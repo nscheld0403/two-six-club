@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { Sheet } from "@/components/sheet";
-import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, InfoIcon } from "@/components/icons";
+import { BirthdayCake, CheckIcon, ChevronLeftIcon, ChevronRightIcon, InfoIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Avatar, Display, EmptyState, Eyebrow, ProgressBar } from "@/components/ui/primitives";
 import { cn } from "@/lib/cn";
@@ -45,7 +45,7 @@ export function ScheduleView({
   const [day, setDay] = useState(initialDay);
   const [filter, setFilter] = useState<"all" | Discipline>("all");
   const [openId, setOpenId] = useState<string | null>(null);
-  const [attendees, setAttendees] = useState<Array<{ name: string; status: RsvpStatus }> | null>(null);
+  const [attendees, setAttendees] = useState<Array<{ name: string; status: RsvpStatus; birthday: boolean }> | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   // Optimistic RSVP state layered over server data.
@@ -221,7 +221,10 @@ export function ScheduleView({
                         {cancelled ? "Cancelled" : meta.label}
                       </span>
                     </span>
-                    <span className="truncate text-[15px] font-bold">{s.title}</span>
+                    <span className="flex items-center gap-1.5 truncate text-[15px] font-bold">
+                      {s.title}
+                      {s.birthday_count > 0 ? <BirthdayCake size={15} /> : null}
+                    </span>
                     <ProgressBar value={going} max={s.capacity} tone={full && mine !== "going" ? "warn" : "accent"} />
                     <span className="text-xs text-mist">
                       {full ? `Full · ${s.capacity}/${s.capacity}` : `${going}/${s.capacity}`}
@@ -339,7 +342,10 @@ export function ScheduleView({
                   {attendees.map((a, i) => (
                     <li key={i} className="flex items-center gap-2.5 text-sm">
                       <Avatar name={a.name} size={30} />
-                      <span className="flex-1 font-semibold">{a.name}</span>
+                      <span className="flex flex-1 items-center gap-1.5 font-semibold">
+                        {a.name}
+                        {a.birthday ? <BirthdayCake name={a.name} /> : null}
+                      </span>
                       <span className={cn("text-xs font-semibold", a.status === "going" ? "text-accent" : "text-mist")}>
                         {a.status === "going" ? "Going" : "Maybe"}
                       </span>

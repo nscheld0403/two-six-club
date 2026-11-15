@@ -70,14 +70,14 @@ export async function updateMemberDetails(memberId: string, formData: FormData):
   const target = id.parse(memberId);
   const parsed = profileUpdateSchema.safeParse({
     displayName: formData.get("displayName"),
-    age: formData.get("age"),
+    birthDate: formData.get("birthDate"),
     sex: formData.get("sex"),
   });
   if (!parsed.success) return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid details" };
   const supabase = await createClient();
   const { error } = await supabase
     .from("profiles")
-    .update({ display_name: parsed.data.displayName, age: parsed.data.age, sex: parsed.data.sex })
+    .update({ display_name: parsed.data.displayName, birth_date: parsed.data.birthDate, sex: parsed.data.sex })
     .eq("id", target);
   if (error) return { ok: false, message: error.message };
   revalidatePath("/admin", "layout");

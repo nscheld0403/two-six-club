@@ -40,10 +40,10 @@ await page.waitForURL("**/join");
 await page.getByRole("button", { name: "Request membership" }).click();
 await page.getByText("Enter your name").waitFor({ timeout: 10000 });
 check(true, "join shows name error when empty");
-check(await page.getByText(/enter your age/i).isVisible(), "join shows age error when empty");
+check(await page.getByText(/enter your birthday/i).isVisible(), "join shows birthday error when empty");
 
 await page.getByLabel("Name").fill("Test Person");
-await page.getByLabel("Age").fill("9");
+await page.getByLabel("Birthday").fill(`${new Date().getFullYear() - 9}-03-15`);
 await page.getByText("Male", { exact: true }).click();
 await page.getByRole("button", { name: "Request membership" }).click();
 await page.getByText("Members must be 13 or older").waitFor({ timeout: 10000 });

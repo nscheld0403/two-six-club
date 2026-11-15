@@ -37,5 +37,5 @@ export async function getAttendees(sessionId: string) {
   if (!id.success) return [];
   const supabase = await createClient();
   const { data } = await supabase.rpc("session_attendees", { p_session: id.data });
-  return (data ?? []).map((a) => ({ name: a.display_name, status: a.status }));
+  return (data ?? []).map((a) => ({ name: a.display_name, status: a.status, birthday: a.is_birthday }));
 }

@@ -34,7 +34,7 @@ async function register(name, age, sex) {
   const page = await newPage();
   await page.goto(`${BASE}/join`);
   await page.getByLabel("Name").fill(name);
-  await page.getByLabel("Age").fill(String(age));
+  await page.getByLabel("Birthday").fill(`${new Date().getFullYear() - age}-03-15`);
   await page.getByText(sex, { exact: true }).click();
   await page.getByRole("button", { name: "Request membership" }).click();
   const code = await page.getByLabel("Sign-in code").textContent({ timeout: 30000 });

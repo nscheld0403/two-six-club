@@ -22,7 +22,7 @@ function clientIp(h: Headers): string {
 export async function registerMember(_prev: RegisterState, formData: FormData): Promise<RegisterState> {
   const values = {
     displayName: String(formData.get("displayName") ?? ""),
-    age: String(formData.get("age") ?? ""),
+    birthDate: String(formData.get("birthDate") ?? ""),
     sex: String(formData.get("sex") ?? ""),
   };
 

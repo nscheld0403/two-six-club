@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRightIcon, CalendarIcon, PlusIcon, RanksIcon, TrendIcon } from "@/components/icons";
+import { ArrowRightIcon, CakeIcon, CalendarIcon, PlusIcon, RanksIcon, TrendIcon } from "@/components/icons";
+import { isBirthdayOn } from "@/lib/birthday";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, Display, EmptyState, Eyebrow, ProgressBar } from "@/components/ui/primitives";
 import { requireActiveMember } from "@/lib/auth";
@@ -69,10 +70,31 @@ export default async function HomePage() {
     <>
       <section className="flex flex-col gap-1 pt-1">
         <Eyebrow className="text-xs">{formatDateKey(today, { weekday: "long", month: "long", day: "numeric" })}</Eyebrow>
-        <Display className="text-[44px]">
-          {greeting}, {me.display_name.split(" ")[0]}.
-        </Display>
+        {isBirthdayOn(me.birth_date, today) ? (
+          <Display className="flex items-center gap-3 text-[44px]">
+            Happy birthday, {me.display_name.split(" ")[0]}.
+            <CakeIcon size={36} className="flex-none text-strength" />
+          </Display>
+        ) : (
+          <Display className="text-[44px]">
+            {greeting}, {me.display_name.split(" ")[0]}.
+          </Display>
+        )}
       </section>
+
+      {!me.birth_date ? (
+        <Link
+          href="/account"
+          className="press flex items-center gap-3 rounded-card border border-strength/40 bg-charcoal px-4 py-3"
+        >
+          <CakeIcon size={22} className="flex-none text-strength" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold">Add your birthday</span>
+            <span className="block text-xs text-mist">So the club can celebrate you. Only the coach sees the date.</span>
+          </span>
+          <ArrowRightIcon size={16} className="flex-none text-mist" />
+        </Link>
+      ) : null}
 
       <Card aria-label="Last 7 days" className="flex items-center justify-between gap-3 px-4 py-3.5">
         <div className="flex flex-col gap-0.5">

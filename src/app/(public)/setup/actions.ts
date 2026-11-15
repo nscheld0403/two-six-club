@@ -41,7 +41,7 @@ export async function createFirstAdmin(_prev: SetupState, formData: FormData): P
 
   const parsed = registrationSchema.safeParse({
     displayName: formData.get("displayName"),
-    age: formData.get("age"),
+    birthDate: formData.get("birthDate"),
     sex: formData.get("sex"),
   });
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Check your details" };

@@ -9,7 +9,7 @@ import { SEX_OPTIONS } from "@/lib/validation";
 import { updateAccount, type AccountState } from "./actions";
 
 type Props = {
-  profile: { displayName: string; age: number; sex: MemberSex; resultsVisible: boolean; showDemographics: boolean };
+  profile: { displayName: string; birthDate: string; sex: MemberSex; resultsVisible: boolean; showDemographics: boolean };
 };
 
 function Toggle({ name, label, description, defaultChecked }: { name: string; label: string; description: string; defaultChecked: boolean }) {
@@ -36,8 +36,15 @@ export function AccountForm({ profile }: Props) {
         <Field label="Name" htmlFor="displayName">
           <TextInput id="displayName" name="displayName" defaultValue={profile.displayName} maxLength={60} required />
         </Field>
-        <Field label="Age" htmlFor="age">
-          <TextInput id="age" name="age" inputMode="numeric" defaultValue={profile.age} className="w-[140px]" required />
+        <Field label="Birthday" hint="only the coach sees the date" htmlFor="birthDate">
+          <TextInput
+            id="birthDate"
+            name="birthDate"
+            type="date"
+            defaultValue={profile.birthDate}
+            className="w-[200px] [color-scheme:dark]"
+            required
+          />
         </Field>
         <Segmented name="sex" legend="Sex" options={SEX_OPTIONS} defaultValue={profile.sex} />
       </Card>

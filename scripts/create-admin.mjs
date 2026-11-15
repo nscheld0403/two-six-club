@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Creates the administrator account, or promotes an existing member.
 //
-//   npm run admin:create -- "Your Name" 40
+//   npm run admin:create -- "Your Name" 1986-04-12
 //   npm run admin:promote -- K7M3Q9
 //
 // Reads NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from .env.local.
@@ -39,9 +39,12 @@ if (mode === "promote") {
 
 if (mode === "create") {
   const name = (args[0] ?? "").trim();
-  const age = Number(args[1]);
+  const birthDate = args[1] ?? "";
+  const age = /^\d{4}-\d{2}-\d{2}$/.test(birthDate)
+    ? Math.floor((Date.now() - Date.parse(birthDate + "T00:00:00Z")) / (365.2425 * 864e5))
+    : NaN;
   if (!name || !Number.isInteger(age) || age < 13 || age > 100) {
-    console.error('Usage: npm run admin:create -- "Your Name" <age>');
+    console.error('Usage: npm run admin:create -- "Your Name" <birthday YYYY-MM-DD>');
     process.exit(1);
   }
   const { count } = await admin.from("profiles").select("id", { count: "exact", head: true }).eq("role", "admin");
@@ -66,6 +69,7 @@ if (mode === "create") {
     member_code: memberCode,
     display_name: name,
     age,
+    birth_date: birthDate,
     sex: "undisclosed",
     role: "admin",
     status: "active",

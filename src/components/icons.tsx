@@ -66,6 +66,24 @@ export const InfoIcon = (p: IconProps) => (
 export const SearchIcon = (p: IconProps) => (
   <Svg {...p}><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></Svg>
 );
+export const CakeIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 21h16M5 21v-7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7" />
+    <path d="M5 16c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0" />
+    <path d="M12 12V8M8 12V9M16 12V9" />
+    <path d="M12 5.5c.8-.8.8-1.7 0-2.5-.8.8-.8 1.7 0 2.5z" />
+  </Svg>
+);
+
+/** Small labelled birthday cake shown next to a name. */
+export function BirthdayCake({ name, size = 16 }: { name?: string; size?: number }) {
+  return (
+    <span className="inline-flex items-center text-strength" role="img" aria-label={name ? `${name}'s birthday` : "Birthday"} title="Birthday">
+      <CakeIcon size={size} aria-hidden="true" />
+    </span>
+  );
+}
+
 export const LogoutIcon = (p: IconProps) => (
   <Svg {...p}><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l-5-5 5-5M5 12h11" /></Svg>
 );

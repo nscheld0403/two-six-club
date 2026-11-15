@@ -2,7 +2,8 @@
 
 import { useMemo, useRef, useState, useTransition } from "react";
 import { CredentialCard } from "@/components/credential-card";
-import { SearchIcon } from "@/components/icons";
+import { BirthdayCake, SearchIcon } from "@/components/icons";
+import { ageOn, formatBirthday, isBirthdayOn } from "@/lib/birthday";
 import { Button } from "@/components/ui/button";
 import { Field, Segmented, TextInput, inputClasses } from "@/components/ui/form";
 import { Avatar, Badge, Card, Display, EmptyState, type BadgeTone } from "@/components/ui/primitives";
@@ -22,7 +23,7 @@ import {
 
 type Member = Pick<
   ProfileRow,
-  "id" | "member_code" | "display_name" | "age" | "sex" | "role" | "status" | "created_at" | "approved_at" | "access_reset_at"
+  "id" | "member_code" | "display_name" | "age" | "birth_date" | "sex" | "role" | "status" | "created_at" | "approved_at" | "access_reset_at"
 >;
 
 const statusTone: Record<MemberStatus, BadgeTone> = {
@@ -41,6 +42,9 @@ const filters: Array<{ id: "all" | MemberStatus; label: string }> = [
   { id: "suspended", label: "Suspended" },
   { id: "declined", label: "Declined" },
 ];
+
+const todayIso = () => new Date().toISOString().slice(0, 10);
+const ageOf = (m: Member) => (m.birth_date ? ageOn(m.birth_date, todayIso()) : m.age);
 
 export function MembersManager({ members, selfId }: { members: Member[]; selfId: string }) {
   const [q, setQ] = useState("");
@@ -115,7 +119,7 @@ export function MembersManager({ members, selfId }: { members: Member[]; selfId:
                   <Avatar name={p.display_name} size={40} />
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-bold">
-                      {p.display_name} <span className="font-medium text-mist">· {p.age}</span>
+                      {p.display_name} <span className="font-medium text-mist">· {ageOf(p)}</span>
                     </div>
                     <div className="text-xs text-mist">
                       Requested {new Date(p.created_at).toLocaleDateString()} · <span className="font-mono">{p.member_code}</span>
@@ -213,7 +217,11 @@ export function MembersManager({ members, selfId }: { members: Member[]; selfId:
                     </td>
                     <td className="border-b border-graphite px-2 py-2.5 font-mono text-fog">{m.member_code}</td>
                     <td className="border-b border-graphite px-2 py-2.5 text-fog">
-                      {m.age} · {sexLabel[m.sex]}
+                      <span className="inline-flex items-center gap-1.5">
+                        {ageOf(m)} · {sexLabel[m.sex]}
+                        {isBirthdayOn(m.birth_date, todayIso()) ? <BirthdayCake name={m.display_name} /> : null}
+                        {!m.birth_date ? <span className="text-xs text-ash">(no birthday)</span> : null}
+                      </span>
                     </td>
                     <td className="border-b border-graphite px-2 py-2.5 text-fog">
                       {new Date(m.created_at).toLocaleDateString()}
@@ -274,8 +282,15 @@ export function MembersManager({ members, selfId }: { members: Member[]; selfId:
                   <Field label="Name" htmlFor="m-name">
                     <TextInput id="m-name" name="displayName" defaultValue={selected.display_name} className="bg-matte" />
                   </Field>
-                  <Field label="Age" htmlFor="m-age">
-                    <TextInput id="m-age" name="age" inputMode="numeric" defaultValue={selected.age} className="w-[140px] bg-matte" />
+                  <Field label="Birthday" hint={selected.birth_date ? formatBirthday(selected.birth_date) : "not set yet"} htmlFor="m-birth">
+                    <TextInput
+                      id="m-birth"
+                      name="birthDate"
+                      type="date"
+                      defaultValue={selected.birth_date ?? ""}
+                      className="w-[200px] bg-matte [color-scheme:dark]"
+                      required
+                    />
                   </Field>
                   <Segmented name="sex" legend="Sex" options={SEX_OPTIONS} defaultValue={selected.sex} />
                   <Button type="submit" variant="inverse" size="sm" disabled={isPending}>

@@ -20,7 +20,7 @@ export default async function AccountPage() {
       <AccountForm
         profile={{
           displayName: me.display_name,
-          age: me.age,
+          birthDate: me.birth_date ?? "",
           sex: me.sex,
           resultsVisible: me.results_visible,
           showDemographics: me.show_demographics,

@@ -10,7 +10,7 @@ export default async function MembersPage() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("profiles")
-    .select("id, member_code, display_name, age, sex, role, status, created_at, approved_at, access_reset_at")
+    .select("id, member_code, display_name, age, birth_date, sex, role, status, created_at, approved_at, access_reset_at")
     .order("created_at", { ascending: false });
 
   return (

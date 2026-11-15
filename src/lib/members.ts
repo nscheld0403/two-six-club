@@ -8,6 +8,7 @@ import {
 } from "@/lib/credentials";
 import { publicEnv } from "@/lib/env";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { ageOn } from "@/lib/birthday";
 import type { RegistrationInput } from "@/lib/validation";
 
 const MAX_REGISTRATIONS_PER_HOUR = 5;
@@ -69,7 +70,8 @@ export async function createMember(
       id: userId,
       member_code: memberCode,
       display_name: input.displayName,
-      age: input.age,
+      age: ageOn(input.birthDate, new Date().toISOString().slice(0, 10)),
+      birth_date: input.birthDate,
       sex: input.sex,
       role: opts.role ?? "member",
       status: opts.status ?? "pending",

@@ -56,18 +56,19 @@ describe("credentials", () => {
 
 describe("registration validation", () => {
   it("accepts a minimal valid registration", () => {
-    const r = registrationSchema.parse({ displayName: "  Alex   Rivera ", age: "34", sex: "undisclosed" });
-    expect(r).toEqual({ displayName: "Alex Rivera", age: 34, sex: "undisclosed" });
+    const r = registrationSchema.parse({ displayName: "  Alex   Rivera ", birthDate: "1990-04-12", sex: "undisclosed" });
+    expect(r).toEqual({ displayName: "Alex Rivera", birthDate: "1990-04-12", sex: "undisclosed" });
   });
 
   it("rejects bad input", () => {
-    expect(registrationSchema.safeParse({ displayName: "", age: 30, sex: "male" }).success).toBe(false);
-    expect(registrationSchema.safeParse({ displayName: "A", age: 9, sex: "male" }).success).toBe(false);
-    expect(registrationSchema.safeParse({ displayName: "A", age: 30, sex: "other" }).success).toBe(false);
-    expect(registrationSchema.safeParse({ displayName: "A", age: 30.5, sex: "male" }).success).toBe(false);
-    const empty = registrationSchema.safeParse({ displayName: "A", age: "", sex: "male" });
-    expect(empty.success).toBe(false);
-    expect(empty.error?.issues[0]?.message).toBe("Enter your age");
-    expect(registrationSchema.safeParse({ displayName: "A", age: "abc", sex: "male" }).success).toBe(false);
+    const ok = { displayName: "A", birthDate: "1990-04-12", sex: "male" };
+    expect(registrationSchema.safeParse({ ...ok, displayName: "" }).success).toBe(false);
+    expect(registrationSchema.safeParse({ ...ok, sex: "other" }).success).toBe(false);
+    const empty = registrationSchema.safeParse({ ...ok, birthDate: "" });
+    expect(empty.error?.issues[0]?.message).toBe("Enter your birthday");
+    expect(registrationSchema.safeParse({ ...ok, birthDate: "2099-01-01" }).success).toBe(false);
+    expect(registrationSchema.safeParse({ ...ok, birthDate: new Date().toISOString().slice(0, 10) }).success).toBe(false); // under 13
+    expect(registrationSchema.safeParse({ ...ok, birthDate: "1900-01-01" }).success).toBe(false); // over 100
+    expect(registrationSchema.safeParse({ ...ok, birthDate: "1990-02-30" }).success).toBe(false);
   });
 });
